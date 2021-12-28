@@ -8,6 +8,7 @@ import com.example.schema.data.models.Currency
 import com.example.schema.repository.Repository
 import com.example.schema.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +33,7 @@ class DetailsViewModel @Inject constructor(private val repository: Repository, p
         getInitData()
     }
 
-    private fun getInitData() = viewModelScope.launch {
+    fun getInitData() = viewModelScope.launch(Dispatchers.IO) {
         try {
             _detailsUIEvent.emit(DetailsUIEvent.Loading)
 

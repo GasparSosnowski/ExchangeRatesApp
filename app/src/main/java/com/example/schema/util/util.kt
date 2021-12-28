@@ -32,9 +32,9 @@ fun NavController.navigateSafely(
     args: Bundle? = null,
     navOptions: NavOptions? = null,
     navExtras: Navigator.Extras? = null
-){
+) {
     val action = currentDestination?.getAction(resId) ?: graph.getAction(resId)
-    if(action!= null && currentDestination?.id != action.destinationId){
+    if (action != null && currentDestination?.id != action.destinationId) {
         navigate(resId, args, navOptions, navExtras)
     }
 }
@@ -48,4 +48,30 @@ fun Double.round(decimals: Int): Double {
 fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
     val formatter = SimpleDateFormat(format, locale)
     return formatter.format(this)
+}
+
+fun formatAfterDot(string: String, places: Int): String {
+    var position = 0
+    var positionOfDot = 0
+    var isDot = false
+    var eException = false
+    for (char in string) {
+        if (char == '.') {
+            isDot = true
+            positionOfDot = position
+        }
+        if (char == 'e') {
+            eException = true
+        }
+        position += 1
+    }
+    var resultString = ""
+    if (isDot && positionOfDot + places < string.length && !eException) {
+        for (i in 0..positionOfDot + places) {
+            resultString += string[i]
+        }
+        return resultString
+    } else {
+        return string
+    }
 }

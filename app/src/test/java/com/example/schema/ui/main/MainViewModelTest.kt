@@ -24,6 +24,7 @@ class MainViewModelTest {
         viewModel.mainUIEvent.test {
             assertEquals(awaitItem(), MainViewModel.MainUIEvent.Loading)
             assertEquals(awaitItem(), MainViewModel.MainUIEvent.Success)
+            cancelAndConsumeRemainingEvents()
         }
 
     }
@@ -39,6 +40,7 @@ class MainViewModelTest {
         viewModel.mainUIEvent.test {
             assertEquals(awaitItem(), MainViewModel.MainUIEvent.Loading)
             assertEquals(awaitItem(), MainViewModel.MainUIEvent.Success)
+            cancelAndConsumeRemainingEvents()
         }
 
     }
@@ -56,6 +58,7 @@ class MainViewModelTest {
         viewModel.mainUIEvent.test {
             assertEquals(awaitItem(), MainViewModel.MainUIEvent.Loading)
             assertEquals(awaitItem(), MainViewModel.MainUIEvent.Error("Error"))
+            cancelAndConsumeRemainingEvents()
         }
 
     }
@@ -73,6 +76,7 @@ class MainViewModelTest {
         viewModel.mainUIEvent.test {
             assertEquals(awaitItem(), MainViewModel.MainUIEvent.Loading)
             assertEquals(awaitItem(), MainViewModel.MainUIEvent.Error("Error"))
+            cancelAndConsumeRemainingEvents()
         }
 
     }
@@ -87,6 +91,7 @@ class MainViewModelTest {
 
         viewModel.mainUIState.test {
             assertEquals(awaitItem(), mutableListOf<Currency>())
+            cancelAndConsumeRemainingEvents()
         }
     }
 
@@ -102,6 +107,7 @@ class MainViewModelTest {
 
         viewModel.mainUIState.test {
             assertEquals(awaitItem(), null)
+            cancelAndConsumeRemainingEvents()
         }
     }
 
@@ -115,6 +121,7 @@ class MainViewModelTest {
 
         viewModel.mainUIState.test {
             assertEquals(awaitItem(), mutableListOf<Currency>())
+            cancelAndConsumeRemainingEvents()
         }
     }
 
@@ -130,9 +137,9 @@ class MainViewModelTest {
 
         viewModel.mainUIState.test {
             assertEquals(awaitItem(), null)
+            cancelAndConsumeRemainingEvents()
         }
     }
-
 
 
 }
