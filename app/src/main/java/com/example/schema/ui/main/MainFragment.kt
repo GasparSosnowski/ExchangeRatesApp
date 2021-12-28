@@ -52,7 +52,7 @@ class MainFragment : Fragment(), ClickListener {
             false
         )
 
-        adapter = CurrencyAdapter(mutableListOf(), this)
+        adapter = CurrencyAdapter(mutableListOf<Currency>(), this)
         binding.currencyList.adapter = adapter
 
 

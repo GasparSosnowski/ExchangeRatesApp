@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.schema.data.models.Currency
 import com.example.schema.repository.Repository
+import com.example.schema.util.Resource
 import com.example.schema.util.toString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,21 +25,25 @@ class MainViewModel @Inject constructor(private val repository : Repository) : V
 
     private val calendar = Calendar.getInstance()
 
-
     init {
         getInitData()
     }
 
-    private fun getInitData() = viewModelScope.launch(Dispatchers.IO) {
+    fun getInitData() = viewModelScope.launch(Dispatchers.IO) {
         try {
             _mainUIEvent.emit(MainUIEvent.Loading)
-            val data = repository.getRecentExchangeRates()
-
-            _mainUIState.value = data
-            _mainUIEvent.emit(MainUIEvent.Success)
+            when(val data = repository.getRecentExchangeRates()){
+                is Resource.Error -> {
+                    _mainUIEvent.emit(MainUIEvent.Error(data.message ?: "An error occurred"))
+                }
+                is Resource.Success -> {
+                    _mainUIState.value = data.data
+                    _mainUIEvent.emit(MainUIEvent.Success)
+                }
+            }
         }
         catch (e : Exception){
-            _mainUIEvent.emit(MainUIEvent.Error(e.message.toString()))
+            _mainUIEvent.emit(MainUIEvent.Error(e.message ?: "An error occurred"))
         }
     }
 
@@ -49,23 +54,25 @@ class MainViewModel @Inject constructor(private val repository : Repository) : V
             calendar.add(Calendar.DATE, -1)
             val today = calendar.time.toString("yyyy-MM-dd")
 
-            val data = repository.getNextDaysData(today)
-            val finalData : MutableList<Currency> = (_mainUIState.value!! + data) as MutableList<Currency>
-
-            _mainUIState.value = finalData
-            _mainUIEvent.emit(MainUIEvent.Success)
-
+            when(val data = repository.getNextDaysData(today)){
+                is Resource.Error -> {
+                    _mainUIEvent.emit(MainUIEvent.Error(data.message ?: "An error occurred"))
+                }
+                is Resource.Success -> {
+                    val finalData : MutableList<Currency> = (_mainUIState.value!! + data.data!!) as MutableList<Currency>
+                    _mainUIState.value = finalData
+                    _mainUIEvent.emit(MainUIEvent.Success)
+                }
+            }
         }
         catch (e : Exception){
-            _mainUIEvent.emit(MainUIEvent.Error(e.message.toString()))
+            _mainUIEvent.emit(MainUIEvent.Error(e.message ?: "An error occurred"))
         }
     }
-
 
     sealed class MainUIEvent{
         object Loading : MainUIEvent()
         object Success : MainUIEvent()
         data class Error(val error : String) : MainUIEvent()
     }
-
 }

@@ -90,4 +90,8 @@ dependencies {
     //MOSHI
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
 
+    //COROUTINES TEST
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0'
+    testImplementation 'app.cash.turbine:turbine:0.7.0'
+
 }
