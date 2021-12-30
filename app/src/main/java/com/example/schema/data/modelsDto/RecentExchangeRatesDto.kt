@@ -1,7 +1,7 @@
 package com.example.schema.data.modelsDto
 
 import com.example.schema.data.models.Currency
-import com.example.schema.util.Constants
+import com.example.schema.data.models.CurrencyType
 import com.example.schema.util.formatAfterDot
 import kotlin.reflect.full.memberProperties
 
@@ -15,15 +15,13 @@ data class RecentExchangeRatesDto(
 
 fun RecentExchangeRatesDto.toCurrencyList(): MutableList<Currency> {
     val listOfCurrency = mutableListOf<Currency>()
-    val currencyZero = Currency(
-        name = Constants.DAY,
-        rate = date
-    )
-    listOfCurrency.add(currencyZero)
+    listOfCurrency.add(Currency(date = date, type = CurrencyType.DATE))
     for (prop in RatesDto::class.memberProperties) {
         val currency = Currency(
             name = "${prop.name}:",
-            rate = formatAfterDot(prop.get(rates).toString(), 4)
+            value = formatAfterDot(prop.get(rates).toString(), 4),
+            date = date,
+            type = CurrencyType.CURRENCY
         )
         listOfCurrency.add(currency)
     }

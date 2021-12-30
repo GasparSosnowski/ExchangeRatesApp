@@ -6,8 +6,11 @@ object Constants {
     const val BASE_URL = "http://data.fixer.io/api/"
 
     const val DAY = "Dzień"
-    const val CURRENCY_LIST = "currencyList"
-    const val POSITION = "position"
+    const val CURRENCY = "currency"
+
+    //ADAPTER CONSTANTS
+    const val VIEW_TYPE_DAY_CARD : Int = 1
+    const val VIEW_TYPE_CURRENCY_CARD : Int = 2
 
 
 }

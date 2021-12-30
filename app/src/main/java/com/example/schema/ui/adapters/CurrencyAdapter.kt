@@ -1,50 +1,73 @@
 package com.example.schema.ui.adapters
 
 import android.annotation.SuppressLint
-import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.schema.R
 import com.example.schema.data.models.Currency
+import com.example.schema.data.models.CurrencyType
 import com.example.schema.databinding.CurrencyCardBinding
-import com.example.schema.util.Constants
+import com.example.schema.databinding.DayCardBinding
+import com.example.schema.util.Constants.VIEW_TYPE_CURRENCY_CARD
+import com.example.schema.util.Constants.VIEW_TYPE_DAY_CARD
 
 
-class CurrencyAdapter(private var currencyList: MutableList<Currency>, private val clicked : ClickListener) : RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder>(){
+class CurrencyAdapter(private var currencyList: MutableList<Currency>, private val clicked : ClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
 
-    inner class CurrencyViewHolder(val binding: CurrencyCardBinding) : RecyclerView.ViewHolder(binding.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = CurrencyCardBinding.inflate(layoutInflater, parent, false)
-        return CurrencyViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: CurrencyViewHolder, position: Int) {
-        holder.binding.apply {
-            firstTextView.text = currencyList[position].name
-            secondTextView.text = currencyList[position].rate
-            currencyLayout.setOnClickListener {
-                if(currencyList[position].name != Constants.DAY){
-                    clicked.selectedCurrencyClicked(currencyList, position)
+    inner class CurrencyViewHolder(private val binding: CurrencyCardBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int){
+            binding.apply {
+                currencyName.text = currencyList[position].name
+                currencyRateValue.text = currencyList[position].value
+                currencyLayout.setOnClickListener {
+                    clicked.selectedCurrencyClicked(currencyList[position])
                 }
             }
-            val context = holder.itemView.context
-            if(currencyList[position].name == Constants.DAY){
-                currencyLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.myBlack2))
-                firstTextView.setTextColor(ContextCompat.getColor(context, R.color.white))
-                secondTextView.setTextColor(ContextCompat.getColor(context, R.color.white))
-                secondTextView.typeface = Typeface.DEFAULT_BOLD
-            }else{
-                currencyLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.myBlack))
-                firstTextView.setTextColor(ContextCompat.getColor(context, R.color.white))
-                secondTextView.setTextColor(ContextCompat.getColor(context, R.color.myGreen))
-                secondTextView.typeface = Typeface.DEFAULT
+        }
+    }
+    inner class DayViewHolder(private val binding: DayCardBinding): RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int){
+            binding.apply {
+                dateValue.text = currencyList[position].date
             }
         }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        val currency = currencyList[position]
+        return if(currency.type == CurrencyType.CURRENCY){
+            VIEW_TYPE_CURRENCY_CARD
+        }else{
+            VIEW_TYPE_DAY_CARD
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+
+        return when(viewType){
+            VIEW_TYPE_CURRENCY_CARD -> {
+                val binding = CurrencyCardBinding.inflate(layoutInflater, parent, false)
+                CurrencyViewHolder(binding)
+            }
+            else -> {
+                val binding = DayCardBinding.inflate(layoutInflater, parent, false)
+                DayViewHolder(binding)
+            }
+
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+       when(holder.itemViewType){
+           VIEW_TYPE_CURRENCY_CARD -> {
+               (holder as CurrencyViewHolder).bind(position)
+           }
+           VIEW_TYPE_DAY_CARD -> {
+               (holder as DayViewHolder).bind(position)
+           }
+       }
     }
 
     override fun getItemCount(): Int {

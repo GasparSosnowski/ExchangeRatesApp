@@ -21,11 +21,10 @@ class DetailsViewModel @Inject constructor(savedStateHandle: SavedStateHandle): 
     private val _detailsUIEvent = MutableSharedFlow<DetailsUIEvent>()
     val detailsUIEvent = _detailsUIEvent.asSharedFlow()
 
-    private val _detailsUIState = MutableStateFlow(DetailsUIState())
+    private val _detailsUIState = MutableStateFlow<Currency?>(null)
     val detailsUIState = _detailsUIState.asStateFlow()
 
-    private val currencyList : List<Currency>? = savedStateHandle.get<List<Currency>>(Constants.CURRENCY_LIST)
-    private val position : Int? = savedStateHandle.get<Int>(Constants.POSITION)
+    private val currency : Currency? = savedStateHandle.get<Currency>(Constants.CURRENCY)
 
     init {
         getInitData()
@@ -35,11 +34,8 @@ class DetailsViewModel @Inject constructor(savedStateHandle: SavedStateHandle): 
         try {
             _detailsUIEvent.emit(DetailsUIEvent.Loading)
 
-            val day = findDay(currencyList, position)
-
-            if(day != null){
-                val detailsUIState = DetailsUIState(currencyList!![position!!], day)
-                _detailsUIState.value = detailsUIState
+            if(currency != null){
+                _detailsUIState.value = currency
                 _detailsUIEvent.emit(DetailsUIEvent.Success)
             }else{
                 _detailsUIEvent.emit(DetailsUIEvent.Error("You have problem with currency list"))
@@ -50,16 +46,6 @@ class DetailsViewModel @Inject constructor(savedStateHandle: SavedStateHandle): 
         }
     }
 
-    private fun findDay(currencyList : List<Currency>?, position : Int?) : String?{
-        if(currencyList != null && position != null){
-            for (i in position downTo 0 step 1){
-                if(currencyList[i].name == Constants.DAY){
-                    return currencyList[i].rate
-                }
-            }
-        }
-        return null
-    }
 
     sealed class DetailsUIEvent{
         object Loading : DetailsUIEvent()
@@ -67,8 +53,4 @@ class DetailsViewModel @Inject constructor(savedStateHandle: SavedStateHandle): 
         data class Error(val error : String) : DetailsUIEvent()
     }
 
-    data class DetailsUIState(
-        val currency: Currency? = null,
-        val day: String? = null
-    )
 }

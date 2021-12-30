@@ -91,8 +91,8 @@ class MainFragment : Fragment(), ClickListener {
         return binding.root
     }
 
-    override fun selectedCurrencyClicked(currencyList: List<Currency>, position: Int) {
-        val bundle = bundleOf(Constants.CURRENCY_LIST to currencyList, Constants.POSITION to position)
+    override fun selectedCurrencyClicked(currency: Currency) {
+        val bundle = bundleOf(Constants.CURRENCY to currency)
         findNavController().navigateSafely(R.id.action_mainFragment_to_detailsFragment, bundle)
     }
 

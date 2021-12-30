@@ -73,11 +73,13 @@ class DetailsFragment : Fragment() {
         }
 
         updateJob = lifecycleScope.launch {
-            viewModel.detailsUIState.collectLatest {
-                binding.apply {
-                    date.text = it.day
-                    currencyName.text = it.currency?.name
-                    currencyRate.text = it.currency?.rate
+            viewModel.detailsUIState.collectLatest { currency ->
+                if(currency != null){
+                    binding.apply {
+                        date.text = currency.date
+                        currencyName.text = currency.name
+                        currencyRateValue.text = currency.value
+                    }
                 }
             }
         }
