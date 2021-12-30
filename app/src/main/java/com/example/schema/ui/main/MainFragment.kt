@@ -19,6 +19,7 @@ import com.example.schema.data.models.Currency
 import com.example.schema.databinding.FragmentMainBinding
 import com.example.schema.ui.adapters.ClickListener
 import com.example.schema.ui.adapters.CurrencyAdapter
+import com.example.schema.util.Constants
 import com.example.schema.util.navigateSafely
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +44,7 @@ class MainFragment : Fragment(), ClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = DataBindingUtil.inflate(
             inflater,
@@ -52,7 +53,7 @@ class MainFragment : Fragment(), ClickListener {
             false
         )
 
-        adapter = CurrencyAdapter(mutableListOf<Currency>(), this)
+        adapter = CurrencyAdapter(mutableListOf(), this)
         binding.currencyList.adapter = adapter
 
 
@@ -91,7 +92,7 @@ class MainFragment : Fragment(), ClickListener {
     }
 
     override fun selectedCurrencyClicked(currencyList: List<Currency>, position: Int) {
-        val bundle = bundleOf("currencyList" to currencyList, "position" to position)
+        val bundle = bundleOf(Constants.CURRENCY_LIST to currencyList, Constants.POSITION to position)
         findNavController().navigateSafely(R.id.action_mainFragment_to_detailsFragment, bundle)
     }
 

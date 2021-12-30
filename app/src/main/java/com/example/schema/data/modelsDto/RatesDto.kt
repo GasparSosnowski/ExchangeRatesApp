@@ -1,3 +1,5 @@
+package com.example.schema.data.modelsDto
+
 class RatesDto(
     val AED:  String,
     val AFN:  String,

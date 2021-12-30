@@ -8,8 +8,8 @@ import retrofit2.http.Query
 interface FixerApi {
 
     @GET("latest")
-    suspend fun getRecentExchangeRates(@Query("access_key") api_key : String) : RecentExchangeRatesDto
+    suspend fun getRecentExchangeRates(@Query("access_key") api_key : String) : RecentExchangeRatesDto?
 
     @GET("{date}")
-    suspend fun getNextDaysData(@Path("date") date: String, @Query("access_key") api_key : String) : RecentExchangeRatesDto
+    suspend fun getNextDaysData(@Path("date") date: String, @Query("access_key") api_key : String) : RecentExchangeRatesDto?
 }

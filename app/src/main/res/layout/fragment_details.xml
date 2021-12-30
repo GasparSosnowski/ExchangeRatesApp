@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textAlignment="center"
-                android:text="Dzień:"
+                tools:text="Dzień:"
                 android:textColor="@color/white"
                 android:textSize="30sp"
                 android:textStyle="bold"/>
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textAlignment="center"
-                android:text="2000-11-22"
+                tools:text="2000-11-22"
                 android:textColor="@color/white"
                 android:textSize="30sp"
                 android:textStyle="bold"/>
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textAlignment="center"
-                android:text="AUD:"
+                tools:text="AUD:"
                 android:textColor="@color/white"
                 android:textSize="30sp"
                 android:textStyle="bold"/>
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textAlignment="center"
-                android:text="3.12"
+                tools:text="3.12"
                 android:textColor="@color/myGreen"
                 android:textSize="30sp" />
 

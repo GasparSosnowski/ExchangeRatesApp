@@ -1,7 +1,7 @@
 package com.example.schema.repository
 
 
-import com.example.schema.data.database.Database
+
 import com.example.schema.data.models.Currency
 import com.example.schema.data.modelsDto.RecentExchangeRatesDto
 import com.example.schema.data.modelsDto.toCurrencyList
@@ -9,7 +9,7 @@ import com.example.schema.data.service.FixerApi
 import com.example.schema.util.Constants
 import com.example.schema.util.Resource
 
-class RepositoryImpl(private val database: Database, private val fixerApi: FixerApi) : Repository{
+class RepositoryImpl(private val fixerApi: FixerApi) : Repository{
 
     override suspend fun getRecentExchangeRates(): Resource<MutableList<Currency>> {
         return try {

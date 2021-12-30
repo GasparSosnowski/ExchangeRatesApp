@@ -6,5 +6,8 @@ object Constants {
     const val BASE_URL = "http://data.fixer.io/api/"
 
     const val DAY = "Dzień"
+    const val CURRENCY_LIST = "currencyList"
+    const val POSITION = "position"
+
 
 }

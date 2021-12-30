@@ -1,6 +1,5 @@
 package com.example.schema.data.modelsDto
 
-import RatesDto
 import com.example.schema.data.models.Currency
 import com.example.schema.util.Constants
 import com.example.schema.util.formatAfterDot

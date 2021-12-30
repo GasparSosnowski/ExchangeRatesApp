@@ -5,11 +5,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.schema.data.models.Currency
-import com.example.schema.repository.Repository
 import com.example.schema.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -18,7 +16,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailsViewModel @Inject constructor(private val repository: Repository, private val savedStateHandle: SavedStateHandle): ViewModel() {
+class DetailsViewModel @Inject constructor(savedStateHandle: SavedStateHandle): ViewModel() {
 
     private val _detailsUIEvent = MutableSharedFlow<DetailsUIEvent>()
     val detailsUIEvent = _detailsUIEvent.asSharedFlow()
@@ -26,8 +24,8 @@ class DetailsViewModel @Inject constructor(private val repository: Repository, p
     private val _detailsUIState = MutableStateFlow(DetailsUIState())
     val detailsUIState = _detailsUIState.asStateFlow()
 
-    private val currencyList : List<Currency>? = savedStateHandle.get<List<Currency>>("currencyList")
-    private val position : Int? = savedStateHandle.get<Int>("position")
+    private val currencyList : List<Currency>? = savedStateHandle.get<List<Currency>>(Constants.CURRENCY_LIST)
+    private val position : Int? = savedStateHandle.get<Int>(Constants.POSITION)
 
     init {
         getInitData()
