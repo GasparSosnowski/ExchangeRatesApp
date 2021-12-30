@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.schema.ui.main.MainFragment"
-        android:label="Recent rates"
+        android:label="Exchange rates to euro"
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_detailsFragment"
